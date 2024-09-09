@@ -1,15 +1,17 @@
 package com.CarRental.Backend.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="user_id")
     private  Long id;
     private String Name;
     private String Street1;
@@ -21,6 +23,20 @@ public class Customer {
     private String Email;
     private String password;
     private int Current_Leases;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Lease> active_leases = new HashSet<>();
+
+
+    public Set<Lease> getActive_leases() {
+        return active_leases;
+    }
+
+
+    public void setActive_leases(HashSet<Lease> active_leases) {
+        this.active_leases = active_leases;
+    }
 
     @Override
     public String toString() {

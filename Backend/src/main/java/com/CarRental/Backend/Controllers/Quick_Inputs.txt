@@ -1,0 +1,31 @@
+{
+    "interestRate":4.5,
+    "duration":60,
+    "userID":1,
+    "carId":1
+}
+
+{
+    "name": "John Doe",
+    "street1": "123 Main St",
+    "street2": "Apt 4B",
+    "city": "New York",
+    "state": "NY",
+    "country": "USA",
+    "zipCode": "10001",
+    "email": "johndoe@example.com",
+    "password": "securepassword"
+}
+
+{
+        "make": "Tesla",
+        "model": "Model S",
+        "version": "Long Range",
+        "type": "Electric",
+        "gross": 80000,
+        "nett": 75000,
+        "co2Emission": 0,
+        "distance": 300,
+        "mileage": 15000,
+        "available": true
+    }

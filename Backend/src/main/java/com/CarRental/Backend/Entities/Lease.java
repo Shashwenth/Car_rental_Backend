@@ -1,10 +1,8 @@
 package com.CarRental.Backend.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Lease {
@@ -13,20 +11,43 @@ public class Lease {
     @GeneratedValue (strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long userId;
-
-    private Long carId;
-
     private Double interestRate;
 
     private Long duration;
 
-    private Long amount;
+    private Double amount;
 
-    public Lease(Long id, Long userId, Long carId, Double interestRate, Long duration, Long amount) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private CarModel carModel;
+
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    @JsonBackReference
+    private Customer customer;
+
+
+    public CarModel getCarModel() {
+        return carModel;
+    }
+
+    public void setCarModel(CarModel carModel) {
+        this.carModel = carModel;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+
+
+    public Lease(Long id, Double interestRate, Long duration, Double amount) {
         this.id = id;
-        this.userId = userId;
-        this.carId = carId;
         this.interestRate = interestRate;
         this.duration = duration;
         this.amount = amount;
@@ -43,23 +64,6 @@ public class Lease {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getCarId() {
-        return carId;
-    }
-
-    public void setCarId(Long carId) {
-        this.carId = carId;
-    }
-
     public Double getInterestRate() {
         return interestRate;
     }
@@ -76,11 +80,11 @@ public class Lease {
         this.duration = duration;
     }
 
-    public Long getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 }

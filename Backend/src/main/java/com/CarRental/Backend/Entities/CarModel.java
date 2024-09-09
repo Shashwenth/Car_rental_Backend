@@ -1,10 +1,10 @@
 package com.CarRental.Backend.Entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class CarModel {
@@ -22,6 +22,18 @@ public class CarModel {
     private Long Distance;
     private Long Mileage;
     private boolean Available;
+
+    @OneToOne(mappedBy = "carModel", cascade = CascadeType.ALL, orphanRemoval = true)
+    //@JsonManagedReference
+    private Lease active_Lease;
+
+    public Lease getActive_Lease() {
+        return active_Lease;
+    }
+
+    public void setActive_Lease(Lease active_Lease) {
+        this.active_Lease = active_Lease;
+    }
 
     @Override
     public String toString() {
