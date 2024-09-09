@@ -4,15 +4,9 @@ package com.CarRental.Backend.Service;
 import com.CarRental.Backend.Entities.CarModel;
 import com.CarRental.Backend.Entities.Customer;
 import com.CarRental.Backend.Entities.Lease;
-import com.CarRental.Backend.Repositories.CarModelJPA;
-import com.CarRental.Backend.Repositories.CustomerJPA;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
-
-import static io.micrometer.core.instrument.config.validate.PropertyValidator.getDuration;
 
 @Service
 public class CalculatePrice {
@@ -38,8 +32,17 @@ public class CalculatePrice {
         Optional<CarModel> currentCar= Optional.ofNullable(lease.getCarModel());
         Optional<Customer> currCustomer= Optional.ofNullable(lease.getCustomer());
 
-        return (((currentCar.get().getMileage()/12)*lease.getDuration())/currentCar.get().getNett())+(((lease.getInterestRate()/100)*currentCar.get().getNett())/12);
+        return (((currentCar.get().getCarMileage()/12)*lease.getLeaseDuration())/currentCar.get().getCarNett())+(((lease.getLeaseInterestRate()/100)*currentCar.get().getCarNett())/12);
 
+    }
+
+    public void setCarUnAvailable(Lease lease){
+        lease.getCarModel().setCarAvailable(false);
+    }
+
+    public void AddToCustomer(Lease lease){
+        lease.getCustomer().getCustomerActiveLeaseSet().add(lease);
+        lease.getCustomer().setCustomerCurrentActiveLeasesCount(lease.getCustomer().getCustomerCurrentActiveLeasesCount()+1);
     }
 
 }

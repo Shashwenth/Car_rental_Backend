@@ -11,10 +11,9 @@ import com.CarRental.Backend.Repositories.LeaseJPA;
 import com.CarRental.Backend.Service.CalculatePrice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/lease")
@@ -33,26 +32,26 @@ public class LeaseData {
 
     @PostMapping("/New")
     public ResponseEntity<Lease> AddToLease(@RequestBody LeaseDTO leaseDTO) {
-        System.out.println("Inside New");
-        System.out.println(leaseDTO.getUserID());
-        System.out.println(leaseDTO.getCarId());
-        System.out.println(leaseDTO.getAmount());
-        System.out.println(leaseDTO.getDuration());
         Customer customer = customerJPA.findById(leaseDTO.getUserID()).orElseThrow(()-> new RuntimeException("User Not Found"));
         CarModel carModel= carModelJPA.findById(leaseDTO.getCarId()).orElseThrow(()->new RuntimeException("No car Found"));
         Lease lease=new Lease();
-        System.out.println("Succesfully created lease");
-        lease.setAmount(leaseDTO.getAmount());
+        lease.setLeaseAmount(leaseDTO.getAmount());
         lease.setCarModel(carModel);
         lease.setCustomer(customer);
-        lease.setDuration(leaseDTO.getDuration());
-        lease.setInterestRate(leaseDTO.getInterestRate());
-        System.out.println(lease.getCustomer());
+        lease.setLeaseDuration(leaseDTO.getDuration());
+        lease.setLeaseInterestRate(leaseDTO.getInterestRate());
         leaseJPA.save(lease);
         calculatePrice.setLease(lease);
-        lease.setAmount(calculatePrice.LeaseAmount());
-        //leaseJPA.save(lease);
+        lease.setLeaseAmount(calculatePrice.LeaseAmount());
+        calculatePrice.AddToCustomer(lease);
+        calculatePrice.setCarUnAvailable(lease);
+        leaseJPA.save(lease);
         return ResponseEntity.ok(lease);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Lease> getLease(@PathVariable Long id){
+        return leaseJPA.findById(id);
     }
 
 

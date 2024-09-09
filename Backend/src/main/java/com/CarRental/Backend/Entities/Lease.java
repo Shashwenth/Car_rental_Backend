@@ -1,7 +1,6 @@
 package com.CarRental.Backend.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,21 +8,22 @@ public class Lease {
 
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
-    private Long id;
+    private Long leaseId;
 
-    private Double interestRate;
+    private Double leaseInterestRate;
 
-    private Long duration;
+    private Long leaseDuration;
 
-    private Double amount;
+    private Double leaseAmount;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "carId")
+    @JsonBackReference
     private CarModel carModel;
 
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="customerId")
     @JsonBackReference
     private Customer customer;
 
@@ -46,45 +46,45 @@ public class Lease {
 
 
 
-    public Lease(Long id, Double interestRate, Long duration, Double amount) {
-        this.id = id;
-        this.interestRate = interestRate;
-        this.duration = duration;
-        this.amount = amount;
+    public Lease(Long leaseId, Double leaseInterestRate, Long leaseDuration, Double amount) {
+        this.leaseId = leaseId;
+        this.leaseInterestRate = leaseInterestRate;
+        this.leaseDuration = leaseDuration;
+        this.leaseAmount = amount;
     }
 
     public Lease(){
         super();
     }
 
-    public Long getId() {
-        return id;
+    public Long getLeaseId() {
+        return leaseId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLeaseId(Long leaseId) {
+        this.leaseId = leaseId;
     }
-    public Double getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(Double interestRate) {
-        this.interestRate = interestRate;
+    public Double getLeaseInterestRate() {
+        return leaseInterestRate;
     }
 
-    public Long getDuration() {
-        return duration;
+    public void setLeaseInterestRate(Double leaseInterestRate) {
+        this.leaseInterestRate = leaseInterestRate;
     }
 
-    public void setDuration(Long duration) {
-        this.duration = duration;
+    public Long getLeaseDuration() {
+        return leaseDuration;
     }
 
-    public Double getAmount() {
-        return amount;
+    public void setLeaseDuration(Long leaseDuration) {
+        this.leaseDuration = leaseDuration;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public Double getLeaseAmount() {
+        return leaseAmount;
+    }
+
+    public void setLeaseAmount(Double leaseAmount) {
+        this.leaseAmount = leaseAmount;
     }
 }

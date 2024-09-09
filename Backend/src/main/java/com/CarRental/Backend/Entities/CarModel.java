@@ -4,154 +4,153 @@ package com.CarRental.Backend.Entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 public class CarModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
-    private String Make;
-    private String Model;
-    private String Version;
-    private String Type;
-    private Long Gross;
-    private Long Nett;
-    private Long Co2Emission;
-    private Long Distance;
-    private Long Mileage;
-    private boolean Available;
+    @Column(name="carId")
+    private  Long carId;
+    private String carMake;
+    private String carModel;
+    private String carVersion;
+    private String carType;
+    private Long carGross;
+    private Long carNett;
+    private Long carCo2Emission;
+    private Long carDistance;
+    private Long carMileage;
+    private boolean carAvailable;
 
     @OneToOne(mappedBy = "carModel", cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JsonManagedReference
-    private Lease active_Lease;
+    @JsonManagedReference
+    private Lease carLeasedTo;
 
-    public Lease getActive_Lease() {
-        return active_Lease;
+    public Lease getCarLeasedTo() {
+        return carLeasedTo;
     }
 
-    public void setActive_Lease(Lease active_Lease) {
-        this.active_Lease = active_Lease;
+    public void setCarLeasedTo(Lease carLeasedTo) {
+        this.carLeasedTo = carLeasedTo;
     }
 
     @Override
     public String toString() {
         return "CarModel{" +
-                "id=" + id +
-                ", Make='" + Make + '\'' +
-                ", Model='" + Model + '\'' +
-                ", Version='" + Version + '\'' +
-                ", Type='" + Type + '\'' +
-                ", Gross=" + Gross +
-                ", Nett=" + Nett +
-                ", Co2Emission=" + Co2Emission +
+                "id=" + carId +
+                ", Make='" + carMake + '\'' +
+                ", Model='" + carModel + '\'' +
+                ", Version='" + carVersion + '\'' +
+                ", Type='" + carType + '\'' +
+                ", Gross=" + carGross +
+                ", Nett=" + carNett +
+                ", Co2Emission=" + carCo2Emission +
                 '}';
     }
 
-    public CarModel(Long id, String make, String model, String version, String type, Long gross, Long nett, Long co2Emission, Long distance, Long mileage, boolean available) {
-        this.id = id;
-        Make = make;
-        Model = model;
-        Version = version;
-        Type = type;
-        Gross = gross;
-        Nett = nett;
-        Co2Emission = co2Emission;
-        Distance=distance;
-        Mileage=mileage;
-        Available=available;
+    public CarModel(Long carId, String carMake, String carModel, String carVersion, String carType, Long carGross, Long carNett, Long carCo2Emission, Long carDistance, Long carMileage, boolean carAvailable) {
+        this.carId = carId;
+        this.carMake = carMake;
+        this.carModel = carModel;
+        this.carVersion = carVersion;
+        this.carType = carType;
+        this.carGross = carGross;
+        this.carNett = carNett;
+        this.carCo2Emission = carCo2Emission;
+        this.carDistance = carDistance;
+        this.carMileage = carMileage;
+        this.carAvailable = carAvailable;
     }
 
-    public boolean isAvailable() {
-        return Available;
+    public boolean isCarAvailable() {
+        return carAvailable;
     }
 
-    public void setAvailable(boolean available) {
-        Available = available;
+    public void setCarAvailable(boolean carAvailable) {
+        this.carAvailable = carAvailable;
     }
 
     public  CarModel(){
         super();
     }
 
-    public Long getId() {
-        return id;
+    public Long getCarId() {
+        return carId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCarId(Long carId) {
+        this.carId = carId;
     }
 
-    public Long getDistance() {
-        return Distance;
+    public Long getCarDistance() {
+        return carDistance;
     }
 
-    public void setDistance(Long distance) {
-        Distance = distance;
+    public void setCarDistance(Long carDistance) {
+        this.carDistance = carDistance;
     }
 
-    public Long getMileage() {
-        return Mileage;
+    public Long getCarMileage() {
+        return carMileage;
     }
 
-    public void setMileage(Long mileage) {
-        Mileage = mileage;
+    public void setCarMileage(Long carMileage) {
+        this.carMileage = carMileage;
     }
 
-    public String getMake() {
-        return Make;
+    public String getCarMake() {
+        return carMake;
     }
 
-    public void setMake(String make) {
-        Make = make;
+    public void setCarMake(String carMake) {
+        this.carMake = carMake;
     }
 
-    public String getModel() {
-        return Model;
+    public String getCarModel() {
+        return carModel;
     }
 
-    public void setModel(String model) {
-        Model = model;
+    public void setCarModel(String carModel) {
+        this.carModel = carModel;
     }
 
-    public String getVersion() {
-        return Version;
+    public String getCarVersion() {
+        return carVersion;
     }
 
-    public void setVersion(String version) {
-        Version = version;
+    public void setCarVersion(String carVersion) {
+        this.carVersion = carVersion;
     }
 
-    public String getType() {
-        return Type;
+    public String getCarType() {
+        return carType;
     }
 
-    public void setType(String type) {
-        Type = type;
+    public void setCarType(String carType) {
+        this.carType = carType;
     }
 
-    public Long getGross() {
-        return Gross;
+    public Long getCarGross() {
+        return carGross;
     }
 
-    public void setGross(Long gross) {
-        Gross = gross;
+    public void setCarGross(Long carGross) {
+        this.carGross = carGross;
     }
 
-    public Long getNett() {
-        return Nett;
+    public Long getCarNett() {
+        return carNett;
     }
 
-    public void setNett(Long nett) {
-        Nett = nett;
+    public void setCarNett(Long carNett) {
+        this.carNett = carNett;
     }
 
-    public Long getCo2Emission() {
-        return Co2Emission;
+    public Long getCarCo2Emission() {
+        return carCo2Emission;
     }
 
-    public void setCo2Emission(Long co2Emission) {
-        Co2Emission = co2Emission;
+    public void setCarCo2Emission(Long carCo2Emission) {
+        this.carCo2Emission = carCo2Emission;
     }
 }

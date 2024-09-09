@@ -1,5 +1,6 @@
 package com.CarRental.Backend.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -11,151 +12,151 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="user_id")
-    private  Long id;
-    private String Name;
-    private String Street1;
-    private String Street2;
-    private  String City;
-    private String State;
-    private  String Country;
-    private String ZipCode;
-    private String Email;
-    private String password;
-    private int Current_Leases;
+    @Column(name="customerId")
+    private  Long customerId;
+    private String customerName;
+    private String customerStreet1;
+    private String customerStreet2;
+    private  String customerCity;
+    private String customerState;
+    private  String customerCountry;
+    private String customerZipCode;
+    private String customerEmail;
+    private String customerpassword;
+    private Integer customerCurrentActiveLeasesCount =0;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonManagedReference
-    private Set<Lease> active_leases = new HashSet<>();
+    private Set<Lease> customerActiveLeaseSet = new HashSet<>();
 
 
-    public Set<Lease> getActive_leases() {
-        return active_leases;
+    public Set<Lease> getCustomerActiveLeaseSet() {
+        return customerActiveLeaseSet;
     }
 
 
-    public void setActive_leases(HashSet<Lease> active_leases) {
-        this.active_leases = active_leases;
+    public void setCustomerActiveLeaseSet(HashSet<Lease> customerActiveLeaseSet) {
+        this.customerActiveLeaseSet = customerActiveLeaseSet;
     }
 
     @Override
     public String toString() {
         return "Customer{" +
-                "id=" + id +
-                ", Name='" + Name + '\'' +
-                ", Street1='" + Street1 + '\'' +
-                ", Street2='" + Street2 + '\'' +
-                ", City='" + City + '\'' +
-                ", State='" + State + '\'' +
-                ", Country='" + Country + '\'' +
-                ", ZipCode='" + ZipCode + '\'' +
-                ", Email='" + Email + '\'' +
-                ", password='" + password + '\'' +
+                "id=" + customerId +
+                ", Name='" + customerName + '\'' +
+                ", Street1='" + customerStreet1 + '\'' +
+                ", Street2='" + customerStreet2 + '\'' +
+                ", City='" + customerCity + '\'' +
+                ", State='" + customerState + '\'' +
+                ", Country='" + customerCountry + '\'' +
+                ", ZipCode='" + customerZipCode + '\'' +
+                ", Email='" + customerEmail + '\'' +
+                ", password='" + customerpassword + '\'' +
                 '}';
     }
 
-    public int getCurrent_Leases() {
-        return Current_Leases;
+    public Integer getCustomerCurrentActiveLeasesCount() {
+        return customerCurrentActiveLeasesCount;
     }
 
-    public void setCurrent_Leases(int current_Leases) {
-        Current_Leases = current_Leases;
+    public void setCustomerCurrentActiveLeasesCount(Integer customerCurrentActiveLeasesCount) {
+        this.customerCurrentActiveLeasesCount = customerCurrentActiveLeasesCount;
     }
 
-    public Customer(Long id, String name, String street1, String street2, String city, String state, String country, String zipCode, String email, String password, int count) {
-        this.id = id;
-        Name = name;
-        Street1 = street1;
-        Street2 = street2;
-        City = city;
-        State = state;
-        Country = country;
-        ZipCode = zipCode;
-        Email = email;
-        this.password = password;
-        Current_Leases=count;
+    public Customer(Long customerId, String customerName, String customerStreet1, String street2, String customerCity, String customerState, String customerCountry, String customerZipCode, String customerEmail, String customerpassword, Integer count) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.customerStreet1 = customerStreet1;
+        customerStreet2 = street2;
+        this.customerCity = customerCity;
+        this.customerState = customerState;
+        this.customerCountry = customerCountry;
+        this.customerZipCode = customerZipCode;
+        this.customerEmail = customerEmail;
+        this.customerpassword = customerpassword;
+        customerCurrentActiveLeasesCount =count;
     }
 
     public Customer() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
-    public String getName() {
-        return Name;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getStreet1() {
-        return Street1;
+    public String getCustomerStreet1() {
+        return customerStreet1;
     }
 
-    public void setStreet1(String street1) {
-        Street1 = street1;
+    public void setCustomerStreet1(String customerStreet1) {
+        this.customerStreet1 = customerStreet1;
     }
 
-    public String getStreet2() {
-        return Street2;
+    public String getCustomerStreet2() {
+        return customerStreet2;
     }
 
-    public void setStreet2(String street2) {
-        Street2 = street2;
+    public void setCustomerStreet2(String customerStreet2) {
+        this.customerStreet2 = customerStreet2;
     }
 
-    public String getCity() {
-        return City;
+    public String getCustomerCity() {
+        return customerCity;
     }
 
-    public void setCity(String city) {
-        City = city;
+    public void setCustomerCity(String customerCity) {
+        this.customerCity = customerCity;
     }
 
-    public String getState() {
-        return State;
+    public String getCustomerState() {
+        return customerState;
     }
 
-    public void setState(String state) {
-        State = state;
+    public void setCustomerState(String customerState) {
+        this.customerState = customerState;
     }
 
-    public String getCountry() {
-        return Country;
+    public String getCustomerCountry() {
+        return customerCountry;
     }
 
-    public void setCountry(String country) {
-        Country = country;
+    public void setCustomerCountry(String customerCountry) {
+        this.customerCountry = customerCountry;
     }
 
-    public String getZipCode() {
-        return ZipCode;
+    public String getCustomerZipCode() {
+        return customerZipCode;
     }
 
-    public void setZipCode(String zipCode) {
-        ZipCode = zipCode;
+    public void setCustomerZipCode(String customerZipCode) {
+        this.customerZipCode = customerZipCode;
     }
 
-    public String getEmail() {
-        return Email;
+    public String getCustomerEmail() {
+        return customerEmail;
     }
 
-    public void setEmail(String email) {
-        Email = email;
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCustomerpassword() {
+        return customerpassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCustomerpassword(String customerpassword) {
+        this.customerpassword = customerpassword;
     }
 }
