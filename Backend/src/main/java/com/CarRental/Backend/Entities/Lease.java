@@ -18,13 +18,13 @@ public class Lease {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "carId")
-    @JsonBackReference
+    @JsonBackReference("CarModelReference")
     private CarModel carModel;
 
 
     @ManyToOne
     @JoinColumn(name="customerId")
-    @JsonBackReference
+    @JsonBackReference("customerModelReference")
     private Customer customer;
 
 

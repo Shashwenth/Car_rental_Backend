@@ -23,7 +23,7 @@ public class CarModel {
     private boolean carAvailable;
 
     @OneToOne(mappedBy = "carModel", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference("CarModelReference")
     private Lease carLeasedTo;
 
     public Lease getCarLeasedTo() {

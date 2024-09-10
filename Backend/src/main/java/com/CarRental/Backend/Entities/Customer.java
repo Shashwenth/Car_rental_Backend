@@ -26,7 +26,7 @@ public class Customer {
     private Integer customerCurrentActiveLeasesCount =0;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference("customerModelReference")
     private Set<Lease> customerActiveLeaseSet = new HashSet<>();
 
 
