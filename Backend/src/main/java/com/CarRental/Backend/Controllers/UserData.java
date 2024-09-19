@@ -27,4 +27,13 @@ public class UserData {
         return CustomerRepository.findByCustomerId(id);
     }
 
+    @PutMapping("/{id}")
+    public Customer UpdateUser(@RequestBody Customer customer){
+        Customer existingCustomer= CustomerRepository.findByCustomerId(customer.getCustomerId());
+        // Finish the fields! Check is the fields are valid.
+        return existingCustomer;
+    }
+
+
+
 }
