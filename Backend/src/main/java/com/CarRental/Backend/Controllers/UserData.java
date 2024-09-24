@@ -12,15 +12,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/User")
 public class UserData {
-
-    @Autowired
+	
+	@Autowired
     private  CustomerJPA CustomerRepository;
-
-    @PostMapping("signUp")
-    public ResponseEntity<Customer> addUser(@RequestBody Customer customer){
-        Customer NewUser=CustomerRepository.save(customer);
-        return  ResponseEntity.ok(NewUser);
-    }
 
     @GetMapping("/{id}")
     public Customer GetUser(@PathVariable Long id){
