@@ -1,13 +1,17 @@
 package com.CarRental.Backend.Controllers;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.CarRental.Backend.Entities.Customer;
 import com.CarRental.Backend.Repositories.CustomerJPA;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
+import com.CarRental.Backend.Service.CustomerService;
 
 @RestController
 @RequestMapping("/User")
@@ -15,6 +19,8 @@ public class UserData {
 	
 	@Autowired
     private  CustomerJPA CustomerRepository;
+	
+	
 
     @GetMapping("/{id}")
     public Customer GetUser(@PathVariable Long id){

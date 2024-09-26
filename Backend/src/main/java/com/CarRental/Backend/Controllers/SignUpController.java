@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.CarRental.Backend.Entities.Customer;
 import com.CarRental.Backend.Repositories.CustomerJPA;
+import com.CarRental.Backend.Service.CustomerService;
 
 
 @RestController
@@ -17,11 +18,14 @@ public class SignUpController {
 	
 	@Autowired
     private  CustomerJPA CustomerRepository;
+	
+	@Autowired
+	private CustomerService customerService;
 
     @PostMapping("/signUp")
-    public ResponseEntity<Customer> addUser(@RequestBody Customer customer){
-        Customer NewUser=CustomerRepository.save(customer);
-        return  ResponseEntity.ok(NewUser);
+    public ResponseEntity<String> addUser(@RequestBody Customer customer){
+    	customerService.saveCustomer(customer);
+    	return ResponseEntity.ok("Customer registered successfully");
     }
     
 }

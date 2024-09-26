@@ -18,23 +18,24 @@ import com.CarRental.Backend.Repositories.CustomerJPA;
 public class CustomerUserDetailsService implements UserDetailsService {
 
     private final CustomerJPA customerJPA;
-    public  CustomerUserDetailsService(CustomerJPA customerJPA){
-        this.customerJPA=customerJPA;
+
+    public CustomerUserDetailsService(CustomerJPA customerJPA) {
+        this.customerJPA = customerJPA;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Customer>  customer=customerJPA.findBycustomerName(username);
-        if(!customer.isPresent()){
+        Optional<Customer> customerOptional = customerJPA.findBycustomerName(username);
+        if (!customerOptional.isPresent()) {
             throw new UsernameNotFoundException("User Not Found");
         }
 
-        Customer customerData=customer.get();
+        Customer customer = customerOptional.get();
 
         return new User(
-                customerData.getCustomerName(),
-                customerData.getCustomerpassword(),
-                Arrays.stream(new String[]{"user"})
+                customer.getCustomerName(),
+                customer.getCustomerpassword(),
+                Arrays.stream(new String[]{"ROLE_USER"})  // Assigning role with 'ROLE_' prefix
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList())
         );

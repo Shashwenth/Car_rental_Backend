@@ -17,15 +17,7 @@ public class RsaKeyProperties {
         return publicKey;
     }
 
-    public void setPublicKey(RSAPublicKey publicKey) {
-        this.publicKey = publicKey;
-    }
-
     public RSAPrivateKey getPrivateKey() {
         return privateKey;
-    }
-
-    public void setPrivateKey(RSAPrivateKey privateKey) {
-        this.privateKey = privateKey;
     }
 }
