@@ -40,16 +40,15 @@ public class SecurityConfig {
 
     private final CustomerUserDetailsService customerUserDetailsService;
     private final PasswordEncoder passwordEncoder;
-    private final RsaKeyProperties rsaKeys;
 
-    public SecurityConfig(CustomerUserDetailsService customerUserDetailsService, PasswordEncoder passwordEncoder) throws NoSuchAlgorithmException {
+    public SecurityConfig(CustomerUserDetailsService customerUserDetailsService, PasswordEncoder passwordEncoder) {
         this.customerUserDetailsService = customerUserDetailsService;
         this.passwordEncoder = passwordEncoder;
-        this.rsaKeys = generateRsaKeyProperties();
     }
 
-    // RSA Key generation
-    private RsaKeyProperties generateRsaKeyProperties() throws NoSuchAlgorithmException {
+    // RSA Key generation and Bean definition
+    @Bean
+    public RsaKeyProperties rsaKeyProperties() throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         keyPairGenerator.initialize(2048); 
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -70,8 +69,6 @@ public class SecurityConfig {
                 .build();
     }
 
-    
-
     @Bean
     @Order(2)
     SecurityFilterChain securityFilterChainToken(HttpSecurity http) throws Exception {
@@ -79,14 +76,12 @@ public class SecurityConfig {
                 .securityMatcher("/token")
                 .csrf(csrf -> csrf.disable())
                 .headers(header-> header.frameOptions().disable())	
-                .authorizeHttpRequests(auth -> {
-                    auth.anyRequest().authenticated();
-                })
-                .httpBasic(Customizer.withDefaults())  // Enable HTTP Basic authentication
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
-    
+
     @Bean
     @Order(3)
     SecurityFilterChain securityFilterChainJwt(HttpSecurity http) throws Exception {
@@ -94,9 +89,7 @@ public class SecurityConfig {
                 .securityMatcher("/Car/**","/lease/**","/User/**")
                 .csrf(csrf -> csrf.disable())
                 .headers(header-> header.frameOptions().disable())	
-                .authorizeHttpRequests(auth -> {
-                    auth.anyRequest().authenticated();
-                })
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
                 .exceptionHandling(ex -> ex
@@ -105,17 +98,14 @@ public class SecurityConfig {
                 )
                 .build();
     }
-    
-   
-    
+
     @Bean
-    public JwtDecoder jwtDecoder() {
+    public JwtDecoder jwtDecoder(RsaKeyProperties rsaKeys) {
         return NimbusJwtDecoder.withPublicKey(rsaKeys.getPublicKey()).build();
     }
 
-    
     @Bean
-    public JwtEncoder jwtEncoder() {
+    public JwtEncoder jwtEncoder(RsaKeyProperties rsaKeys) {
         JWK jwk = new RSAKey.Builder(rsaKeys.getPublicKey())
                 .privateKey(rsaKeys.getPrivateKey())
                 .build();
@@ -123,10 +113,8 @@ public class SecurityConfig {
         return new NimbusJwtEncoder(jwks);
     }
 
-    
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        return converter;
+        return new JwtAuthenticationConverter();
     }
 }

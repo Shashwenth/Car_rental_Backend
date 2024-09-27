@@ -3,6 +3,9 @@ package com.CarRental.Backend.Security;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
+import org.springframework.stereotype.Component;
+
+
 public class RsaKeyProperties {
 
     private RSAPublicKey publicKey;

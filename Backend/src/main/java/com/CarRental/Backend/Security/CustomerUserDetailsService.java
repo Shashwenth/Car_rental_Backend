@@ -35,7 +35,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
         return new User(
                 customer.getCustomerName(),
                 customer.getCustomerpassword(),
-                Arrays.stream(new String[]{"ROLE_USER"})  // Assigning role with 'ROLE_' prefix
+                Arrays.stream(new String[]{"ROLE_USER"}) 
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList())
         );
